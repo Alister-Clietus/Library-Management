@@ -1,0 +1,31 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form>
+                <h2 class="mb-4">Add Book</h2>
+
+                <div class="mb-3">
+                    <label for="Author" class="form-label">Author Name</label>
+                    <input type="text" class="form-control" [(ngModel)]="bookdto.author" id="author" name="author" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="Title" class="form-label">Title</label>
+                    <input type="text" class="form-control"  [(ngModel)]="bookdto.title" id="title" name="title" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="isbn" class="form-label">ISBN</label>
+                    <input type="isbn" class="form-control"  [(ngModel)]="bookdto.isbn" id="isbn" name="isbn" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="phoneNumber" class="form-label">Number of Pages</label>
+                    <input type="number" class="form-control" id="number"  [(ngModel)]="bookdto.numberOfPages" name="number" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary" (click)="add()">Add Book</button>
+            </form>
+        </div>
+    </div>
+</div>

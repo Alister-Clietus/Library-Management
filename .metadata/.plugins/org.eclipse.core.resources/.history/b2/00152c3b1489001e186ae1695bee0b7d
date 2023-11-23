@@ -1,0 +1,33 @@
+package com.library.auth.serviceImp;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+
+import com.library.auth.dto.SignupDTO;
+import com.library.auth.entity.UserEntity;
+import com.library.auth.repository.AuthRepository;
+
+@Service
+public class AuthServiceImp implements AuthRepository
+{
+	PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	
+	@Repository
+	AuthRepository repo;
+	
+	public ResponseEntity<?> addUser(SignupDTO dto)
+	{
+		UserEntity entity = new UserEntity();
+		entity.setEmail(dto.getEmail());
+		entity.setName(dto.getName());
+		String encodedPassword = passwordEncoder.encode(dto.getPassword());
+		entity.setPassword(encodedPassword);
+		entity.setPhoneNumber(dto.getPhoneNumber());
+		entity.setRoles("USER");
+		repo.save(entity);
+		return new ResponseEntity<>("Successfully Inserted",HttpStatus.OK);
+	}
+
+}

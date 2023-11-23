@@ -1,0 +1,110 @@
+package com.library.management.serviceimp;
+
+import java.awt.print.Pageable;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+
+import com.library.management.dto.BookDTO;
+import com.library.management.dto.ServiceResponse;
+import com.library.management.entity.BookEntity;
+import com.library.management.repository.BookRepository;
+import com.library.management.repository.specifications.SecurityUserSpec;
+import com.library.management.service.BookService;
+
+@Service
+public class BookServiceImp implements BookService
+{
+	
+	@Autowired
+	BookRepository bookrepo;
+	
+	public ServiceResponse creatBooKEntry(BookDTO bookdto)
+	{
+		BookEntity bookentity=new BookEntity();
+		try
+		{
+			bookentity.setAuthor(bookdto.getAuthor());
+			bookentity.setIsbn(bookdto.getIsbn());
+			bookentity.setNumberOfPages(bookdto.getNumberOfPages());
+			bookentity.setTitle(bookdto.getTitle());
+			if(bookrepo.save(bookentity)!=null)
+			return new ServiceResponse("Entered Successfully","Entered Successfully",null);
+			else
+			return new ServiceResponse("Not Entered Successfully","Not Entered Successfully",null);
+		}
+		catch(Exception e)
+		{
+			return new ServiceResponse("Exception Occured","Exception Occured",null);
+		}
+
+	}
+	
+	
+	
+	public JSONObject searchforBooks(String searchParam, int start, int pageSize) {
+		JSONObject result = new JSONObject();
+		try {
+//			PageRequest pageable = PageRequest.of(start / pageSize, pageSize);
+			Specification<BookEntity> spec = SecurityUserSpec.getUserSpec(searchParam);
+			if(spec != null)
+			{
+				System.out.println("Not Null");
+			}
+			System.out.println("After spec");
+			List<BookEntity> usersList = bookrepo.findAll(spec);
+			if(usersList != null)
+			{
+				System.out.println("hello userlist found");
+			}
+			JSONArray array = new JSONArray();
+			JSONArray countByStatus = countByStatus(spec);
+			for (BookEntity users : usersList) {
+				JSONObject obj = new JSONObject();
+				System.out.println(users.getAuthor());
+				obj.put("Author", users.getAuthor());
+				obj.put("isbn", users.getIsbn());
+				obj.put("Title", users.getTitle());
+				obj.put("Number", users.getNumberOfPages());
+				obj.put("status", users.getStatus());
+				array.add(obj);
+			}
+			result.put("aaData", array);
+//			result.put("iTotalDisplayRecords", studentrepo.findAll(spec).size());
+//			result.put("iTotalRecords", studentrepo.findAll(spec).size());
+			result.put("countByStatus", countByStatus);
+		} catch (Exception e) {
+//			logger.error("Error : " + e.getMessage(), e);
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	private JSONArray countByStatus(Specification<BookEntity> spec) {
+		JSONArray array = new JSONArray();
+		try {
+			List<BookEntity> headerList = bookrepo.findAll(spec);
+			Map<String, Long> countByStatus = headerList.stream()
+					.collect(Collectors.groupingBy(BookEntity::getStatus, Collectors.counting()));
+			for (String status : countByStatus.keySet()) {
+				JSONObject obj = new JSONObject();
+				obj.put("name", status);
+				obj.put("count", countByStatus.get(status));
+				array.add(obj);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return array;
+	}
+	
+
+}

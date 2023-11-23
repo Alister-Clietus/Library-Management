@@ -1,0 +1,12 @@
+package com.library.management.dto;
+
+import jakarta.validation.constraints.NotEmpty;
+
+public class BookID 
+{
+	@NotEmpty
+    private String isbn;
+	
+	@NotEmpty
+	private String userName;
+}

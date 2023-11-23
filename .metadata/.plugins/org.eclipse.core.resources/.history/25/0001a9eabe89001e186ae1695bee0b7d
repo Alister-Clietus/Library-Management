@@ -1,0 +1,5 @@
+package com.library.book.dto;
+
+public class LibraryDTO {
+
+}

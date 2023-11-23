@@ -1,0 +1,13 @@
+package com.library.management.entity;
+
+import jakarta.persistence.Embeddable;
+
+@Embeddable
+public class BookedID 
+{
+	@Column(name="USERNAME")
+	private String username;
+	@Column(name="ISBN")
+	private String isbn;
+
+}

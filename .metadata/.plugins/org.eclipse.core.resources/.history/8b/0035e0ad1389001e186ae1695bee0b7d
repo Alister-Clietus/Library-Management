@@ -1,0 +1,5 @@
+package com.library.auth.repository;
+
+public interface AuthRepository {
+
+}

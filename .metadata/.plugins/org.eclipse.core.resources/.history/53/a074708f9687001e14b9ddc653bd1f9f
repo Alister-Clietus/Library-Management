@@ -1,0 +1,41 @@
+package com.library.management.serviceimp;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.library.management.dto.BookDTO;
+import com.library.management.dto.ServiceResponse;
+import com.library.management.entity.BookEntity;
+import com.library.management.repository.BookRepository;
+import com.library.management.service.BookService;
+
+@Service
+public class BookServiceImp implements BookService
+{
+	
+	@Autowired
+	BookRepository bookrepo;
+	
+	public ServiceResponse creatBooKEntry(BookDTO bookdto)
+	{
+		BookEntity bookentity=new BookEntity();
+		try
+		{
+			bookentity.setAuthor(bookdto.getAuthor());
+			bookentity.setIsbn(bookdto.getIsbn());
+			bookentity.setNumberOfPages(bookdto.getNumberOfPages());
+			bookentity.setTitle(bookdto.getTitle());
+			if(bookrepo.save(bookentity)!=null)
+			return new ServiceResponse("Entered Successfully","Entered Successfully",null);
+			else
+			return new ServiceResponse("Not Entered Successfully","Not Entered Successfully",null);
+		}
+		catch(Exception e)
+		{
+			return new ServiceResponse("Exception Occured","Exception Occured",null);
+		}
+
+	}
+	
+
+}

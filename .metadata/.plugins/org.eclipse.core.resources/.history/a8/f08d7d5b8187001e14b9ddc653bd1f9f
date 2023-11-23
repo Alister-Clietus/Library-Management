@@ -1,0 +1,9 @@
+package com.library.management.entity.validation;
+
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+
+public class CustomSizeValidator ConstraintValidator<CustomSize, String> 
+{
+
+}

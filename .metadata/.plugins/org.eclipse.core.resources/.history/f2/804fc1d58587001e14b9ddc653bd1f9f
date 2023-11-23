@@ -1,0 +1,44 @@
+package com.library.management.entity.validation;
+
+import com.library.management.util.ApplicationProperties;
+
+import io.micrometer.common.util.StringUtils;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+
+public class CustomSizeValidator implements ConstraintValidator<CustomSize, String> {
+
+	private String maxKey;
+	private String minKey;
+
+	@Override
+	public void initialize(CustomSize customSize) 
+	{
+		if(ApplicationProperties.INSTANCE.getValue(maxKey)==null)
+		{
+			this.maxKey = customSize.maxKey();		}
+		else
+		{
+			this.maxKey = ApplicationProperties.INSTANCE.getValue(maxKey);
+		}
+		if(ApplicationProperties.INSTANCE.getValue(minKey)==null)
+		{
+			this.minKey = customSize.minKey();
+		}
+		else
+		{
+			this.minKey = ApplicationProperties.INSTANCE.getValue(minKey);
+		}
+	}
+
+	@Override
+	public boolean isValid(String value, ConstraintValidatorContext context) {
+		int maxValue = Integer.parseInt(ApplicationProperties.INSTANCE.getValue(maxKey));
+		int minValue = Integer.parseInt(ApplicationProperties.INSTANCE.getValue(minKey));
+		if (StringUtils.isEmpty(value) || value.length() < minValue || value.length() > maxValue) {
+			return false;
+		} 
+		return true;
+	}
+}
+

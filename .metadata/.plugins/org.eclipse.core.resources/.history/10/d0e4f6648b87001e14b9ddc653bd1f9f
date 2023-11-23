@@ -1,0 +1,11 @@
+package com.library.management.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="BOOKING_DETAILS")
+public class BookingEntity 
+{
+
+}

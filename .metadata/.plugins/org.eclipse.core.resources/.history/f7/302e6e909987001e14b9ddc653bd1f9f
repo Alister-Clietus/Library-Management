@@ -1,0 +1,47 @@
+package com.library.management.dto;
+
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
+public class BookDTO 
+{
+	@NotEmpty
+    private String title;
+	@NotEmpty
+    private String author;
+	@NotEmpty
+    private String isbn;
+	@NotNull
+	@Positive
+    private int numberOfPages;
+    
+    
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getAuthor() {
+		return author;
+	}
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+	public String getIsbn() {
+		return isbn;
+	}
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
+	}
+	public int getNumberOfPages() {
+		return numberOfPages;
+	}
+	public void setNumberOfPages(int numberOfPages) {
+		this.numberOfPages = numberOfPages;
+	}
+    
+    
+}
+

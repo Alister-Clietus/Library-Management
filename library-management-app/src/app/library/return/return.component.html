@@ -1,0 +1,35 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form>
+                <h2 class="mb-4">Borrow Book</h2>
+
+                <div class="mb-3">
+                    <label for="username" class="form-label">UserName</label>
+                    <input type="text" class="form-control" [(ngModel)]="dto.userName" id="username" name="author" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="isbn" class="form-label">ISBN Number</label>
+                    <input type="text" class="form-control"  [(ngModel)]="dto.isbn" id="isbn" name="title" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="borroweddate" class="form-label">Returened Date</label>
+                    <input type="date" class="form-control"  [(ngModel)]="dto.borrowedDate" id="borroweddate" name="borroweddate" required>
+                </div>
+                <div class="mb-3">
+                    <label for="returnedLate" class="form-label">Returened Late</label>
+                    <input type="text" class="form-control"  [(ngModel)]="dto.returnedLate" id="returnedLate" name="returnedLate" required>
+                </div>
+                <div class="mb-3">
+                    <label for="dueAmount" class="form-label">Due Amount</label>
+                    <input type="number" class="form-control"  [(ngModel)]="dto.dueAmount" id="dueAmount" name="dueAmount" required>
+                </div>
+                <button type="submit" class="btn btn-primary" (click)="add()">Return Book</button>
+                <button type="submit" class="btn btn-primary" (click)="clear()">Clear</button>
+                <button type="submit" class="btn btn-primary" (click)="back()">Back Landing</button>
+            </form>
+        </div>
+    </div>
+</div>

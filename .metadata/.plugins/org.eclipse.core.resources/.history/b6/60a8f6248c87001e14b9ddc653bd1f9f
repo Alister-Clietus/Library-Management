@@ -1,0 +1,22 @@
+package com.library.management.entity;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
+@Entity
+@Table(name="BOOK_DETAILS")
+public class BookEntity 
+{
+	@Column(name="TITLE")
+    private String title;
+	@Column(name="AUTHOR")
+    private String author;
+	@Column(name="ISBN")
+    private String isbn;
+	@Column(name="NO_OF_PAGES")
+    private int numberOfPages;
+}

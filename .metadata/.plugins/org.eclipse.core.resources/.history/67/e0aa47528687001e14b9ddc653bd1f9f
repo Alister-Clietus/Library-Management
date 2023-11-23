@@ -1,0 +1,11 @@
+package com.library.management;
+
+public class BookDTO 
+{
+    private String title;
+    private String author;
+    private String isbn;
+    private int numberOfPages;
+    
+    
+}

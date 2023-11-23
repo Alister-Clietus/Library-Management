@@ -1,0 +1,81 @@
+package com.library.management.repository.specifications;
+
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Order;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.util.StringUtils;
+
+import com.library.management.entity.BookEntity;
+
+public class SecurityUserSpec {
+	public static Specification<BookEntity> getUserSpec(String searchParam) {
+		return new Specification<BookEntity>() {
+			public Predicate toPredicate(Root<BookEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+				System.out.println(searchParam);
+				Predicate finalPredicate = null;
+				JSONParser parser = new JSONParser();
+				JSONObject searchObject;
+				try {
+					searchObject = (JSONObject) parser.parse(searchParam);
+					System.out.println(searchObject);
+//					String status = (String) searchObject.get("status");
+					String title = (String) searchObject.get("title");
+					String author = (String) searchObject.get("author");
+					String isbn = (String) searchObject.get("isbn");
+					System.out.println(searchObject.get("numberOfPages").getClass().getSimpleName());
+					Long numberOfPages = (Long) searchObject.get("numberOfPages");
+					
+		            if(!StringUtils.isEmpty(title)) {
+		            	Predicate titlePredicate = criteriaBuilder.equal(root.get("title"), title);
+		            	finalPredicate = criteriaBuilder.and(titlePredicate);
+		            }
+		            
+		            if(!StringUtils.isEmpty(author)) {
+		            	Predicate authorPredicate = criteriaBuilder.like(criteriaBuilder.upper(root.get("author")),"%"+author.toUpperCase()+"%");
+		            	if(finalPredicate!=null) {
+		            		authorPredicate = criteriaBuilder.and(finalPredicate, authorPredicate);
+		            	}else {
+		            		finalPredicate = criteriaBuilder.and(authorPredicate);
+		            	}
+		            	
+		            }
+		            
+		            if(!StringUtils.isEmpty(numberOfPages)) {
+		            	Predicate numberOfPagesPredicate = criteriaBuilder.equal(root.get("numberOfPages"),numberOfPages);
+		            	if(finalPredicate!=null) {
+		            		finalPredicate = criteriaBuilder.and(finalPredicate, numberOfPagesPredicate);
+		            	}else {
+		            		finalPredicate = criteriaBuilder.and(numberOfPagesPredicate);
+		            	}
+		            }
+		            
+		            if(!StringUtils.isEmpty(isbn)) {
+		            	Predicate isbnPredicate = criteriaBuilder.like(criteriaBuilder.upper(root.get("isbn")), "%"+isbn.toUpperCase()+"%");
+		            	if(finalPredicate!=null) {
+		            		finalPredicate = criteriaBuilder.and(finalPredicate, isbnPredicate);
+		            	}else {
+		            		finalPredicate = criteriaBuilder.and(isbnPredicate);
+		            	}
+		            }
+		            
+		            Order proTimeOrder = criteriaBuilder.desc(root.get("numberOfPages"));
+		            query.orderBy(proTimeOrder);
+		            
+				} catch (ParseException e) 
+				{
+					e.printStackTrace();
+				}
+	            
+				return finalPredicate;
+			}
+		};
+	}
+}
+

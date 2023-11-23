@@ -1,0 +1,60 @@
+<div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="idtitle">Title:</label>
+                    <input type="text" id="idtitle" name="title" class="form-control" placeholder="Enter title">
+                </div>
+            </div> <!--1st col ends here -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="idauthor">Author:</label>
+                    <input type="text" id="idauthor" name="author" class="form-control" placeholder="Enter author">
+                </div>
+            </div> <!--2nd col ends here -->
+         </div> <!--1st row ends here -->
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="idisbn">ISBN:</label>
+                    <input type="text" id="idisbn" name="isbn" class="form-control" placeholder="Enter ISBN">
+                </div>
+            </div> <!--1st col ends here -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="idnumber">Number of Pages</label>
+                    <input type="number" id="idnumber" name="userName" class="form-control" placeholder="Enter user name">
+                </div>
+            </div> <!--2nd col ends here -->
+        </div> <!--2nd row ends here -->
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-primary" (click)="searchBooks()">Search</button>
+            </div>
+        </div> <!--3rd row ends here -->
+</div>
+
+<div class="container mt-4"> <!--Container for Datatable -->
+    <div class="table-responsive">
+        <table id="myTable"
+            class="table table-bordered table-hover dataTable responsive nowrap ipsh-grid">
+            <thead>
+                <tr>
+                  <th>Author</th>
+                  <th>Book Title</th>
+                  <th>IBSN Number</th>
+                  <th>Number of Pages</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+        </table>
+    </div>
+    <!-- /.table-responsive -->
+</div> <!-- Container for Datatable ends here -->
+
+
+
+
+
